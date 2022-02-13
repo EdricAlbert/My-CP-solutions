@@ -1,0 +1,4 @@
+Case #1: Between 1 and 1 times.
+Case #2: Between 50 and 50 times.
+Case #3: The records are faulty
+Case #4: Between 100 and 100 times.
