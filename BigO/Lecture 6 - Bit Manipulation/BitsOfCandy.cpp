@@ -7,4 +7,6 @@ int main(){
     cin.tie(NULL);
     cout.tie(NULL);
     freopen("input.txt","r",stdin);
+    freopen("output.txt","w",stdout);
+    
 }
