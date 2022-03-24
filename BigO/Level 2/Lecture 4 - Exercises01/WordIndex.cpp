@@ -13,20 +13,26 @@ void Need(){
     int pos = 1;
     string st;
     for (char i = 'a'; i<='z'; i++){
-        st = i;
+        st.push_back(i);
         encode[st] = pos++;
+        st.pop_back();
     }
     for (char i = 'a'; i<='z'-1; i++){
         for (char j = i+1; j<='z'; j++){
-            st = i + j;
+            st.push_back(i);
+            st.push_back(j);
             encode[st] = pos++;
+            st.clear();
         }
     }
     for (char i = 'a'; i<='z'-2; i++){
         for (char j = i+1; j<='z'-1; j++){
             for (char z = j + 1; z<='z'; z++){
-                st = i + j + z;
+                st.push_back(i);
+                st.push_back(j);
+                st.push_back(z);
                 encode[st] = pos++;
+                st.clear();
             }
         }
     }
@@ -34,8 +40,12 @@ void Need(){
         for (char j = i+1; j<='z'-2; j++){
             for (char k = j + 1; k<='z'-1; k++){
                 for (char s = k + 1; s<='z'; s++){
-                    st = i + j + k + s;
+                    st.push_back(i);
+                    st.push_back(j);
+                    st.push_back(k);
+                    st.push_back(s);
                     encode[st] = pos++;
+                    st.clear();
                 }
             }
         }
@@ -45,8 +55,13 @@ void Need(){
             for (char k = j + 1; k<='z'-2; k++){
                 for (char s = k + 1; s<='z'-1; s++){
                     for (char r = s + 1; r<='z'; r++){
-                        st = i + j + k + s + r;
+                        st.push_back(i);
+                        st.push_back(j);
+                        st.push_back(k);
+                        st.push_back(s);
+                        st.push_back(r);
                         encode[st] = pos++;
+                        st.clear();
                     }
                 }
             }
@@ -67,6 +82,7 @@ int main(){
             if (s[i]>s[i+1]){
                 cout << 0 << '\n';
                 kt = false;
+                break;
             }
         }
         if (kt){
