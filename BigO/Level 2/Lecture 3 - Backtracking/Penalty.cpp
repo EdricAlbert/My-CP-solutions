@@ -7,46 +7,79 @@
 
 using namespace std;
 
-int minimum;
 string st;
+int res;
 
-void backtrack(int index, int scoret1, int scoret2, int round){
-    if (index==10) minimum = min(minimum, 10);
-    if (5 - round + scoret2 + 1< scoret1){
-        minimum = min(minimum, round*2 + index%2 - 1);
-        return;
-    } else 
-    if (5 - round + scoret1 + 1< scoret2){
-        minimum = min(minimum, round*2 + index%2 - 1);
-        return;
+bool check(int id, int pts1, int pts2, int round){
+    if (id == 0){
+        return((pts2 + 5 - round)<pts1);
+    } else {
+        return((pts1 + 5 - round)<pts2);
     }
+}
+
+void backtrack(int index, int pts1, int pts2, int round){
+    if (index==10) return;
     if (st[index]=='1'){
         if (index%2==0){
-            backtrack(index+1, scoret1+1, scoret2, round + abs(index%2));
+            backtrack(index+1, pts1+1, pts2, round);
+            if (check(0, pts1+1, pts2, round)){
+                res = min(res, index+1);
+            }
         } else {
-            backtrack(index+1, scoret1, scoret2+1, round + abs(index%2));
+            backtrack(index+1, pts1, pts2+1, round+1);
+            if (check(1, pts1, pts2+1, round)){
+                res = min(res, index+1);
+            }
         }
-    } else 
+    }
     if (st[index]=='0'){
-        backtrack(index+1, scoret1, scoret2, round + abs(index%2));
+        if (index%2==0){
+            backtrack(index+1, pts1, pts2, round);
+            if (check(0, pts1, pts2, round)){
+                res = min(res, index+1);
+            }
+        } else {
+            backtrack(index+1, pts1, pts2, round+1);
+            if (check(1, pts1, pts2, round)){
+                res = min(res, index+1);
+            }
+        }
     }
     if (st[index]=='?'){
-        for (char i = '0'; i<='1'; i++){
-            if (i=='0') backtrack(index+1, scoret1, scoret2, round+abs(index%2));
-            else 
-            if (index%2==0){
-                backtrack(index+1, scoret1, scoret2 + 1, round + abs(index%2));
-            } else {
-                backtrack(index+1, scoret1 + 1, scoret2, round + abs(index%2));
+        for (int i=0; i<=1; i++){
+            if (index%2==0 && i == 0){
+                backtrack(index+1, pts1, pts2, round);
+                if (check(0, pts1, pts2, round)){
+                    res = min(res, index+1);
+                }
+            } else
+            if (index%2==1 && i == 0) {
+                backtrack(index+1, pts1, pts2, round+1);
+                if (check(1, pts1, pts2, round)){
+                    res = min(res, index+1);
+                }
+            } else
+            if (index%2==0 && i == 1){
+                backtrack(index+1, pts1+1, pts2, round);
+                if (check(0, pts1+1, pts2, round)){
+                    res = min(res, index+1);
+                }
+            } else
+            if (index%2==1 && i == 1) {
+                backtrack(index+1, pts1, pts2+1, round+1);
+                if (check(1, pts1, pts2+1, round)){
+                    res = min(res, index+1);
+                }
             }
         }
     }
 }
 
 void solve(){
-    minimum = 11;
-    backtrack(0,0,0,1);
-    cout << minimum << '\n';
+    res = 11;
+    backtrack(0, 0, 0, 1);
+    cout << res << '\n';
 }
 
 int main(){
